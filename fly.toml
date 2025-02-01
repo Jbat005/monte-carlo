@@ -1,0 +1,24 @@
+# fly.toml app configuration file generated for monte-carlo-api on 2025-01-31T19:18:45-05:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = "monte-carlo-api"
+primary_region = "iad"
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  PORT = "8080"  # IMPORTANT: Keep this as 8080 inside Fly.io
+
+[http_service]
+  internal_port = 8080  # Fly.io only allows exposing one port
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+
+[[vm]]
+  memory = "1gb"
+  cpu_kind = "shared"
+  cpus = 1

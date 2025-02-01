@@ -1,0 +1,6 @@
+flask
+flask-cors
+waitress
+yfinance
+pandas
+numpy
