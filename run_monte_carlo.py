@@ -96,7 +96,7 @@ def monte_carlo_simulation(tickers, num_portfolios=50000):
         print(f"Monte Carlo Simulation Error: {str(e)}")  # Debugging Step
         return {"error": f"Internal error: {str(e)}"}
 
-@app.route('/api/run-monte-carlo', methods=['POST'])
+@app.route('/api/run_monte_carlo', methods=['POST'])
 def run_monte_carlo():
     """Endpoint for running Monte Carlo simulation."""
     try:

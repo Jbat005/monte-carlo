@@ -14,4 +14,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 8080
 
 # Start Monte Carlo API
-CMD ["waitress-serve", "--host", "0.0.0.0", "--port", "8081", "montecarloapi:app"]
+CMD ["waitress-serve", "--host", "0.0.0.0", "--port", "8081", "run_monte_carlo:app"]
