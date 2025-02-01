@@ -10,10 +10,10 @@ primary_region = "iad"
   dockerfile = "Dockerfile"
 
 [env]
-  PORT = "8080"  # IMPORTANT: Keep this as 8080 inside Fly.io
+  PORT = "8081"  # IMPORTANT: Keep this as 8080 inside Fly.io
 
 [http_service]
-  internal_port = 8080  # Fly.io only allows exposing one port
+  internal_port = 8081  # Fly.io only allows exposing one port
   force_https = true
   auto_stop_machines = "stop"
   auto_start_machines = true
