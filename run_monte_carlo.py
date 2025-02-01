@@ -18,17 +18,26 @@ start_date = (datetime.today() - timedelta(days=4 * 365 + 25)).strftime('%Y-%m-%
 def fetch_stock_data(tickers):
     """Fetch historical stock data for selected tickers."""
     try:
-        print(f"Fetching stock data for: {tickers}")  # ✅ Debugging
+        print(f"📡 Fetching stock data for: {tickers}")  # ✅ Debugging
 
         df = yf.download(tickers, start=start_date, end=end_date, progress=False)
-        
-        # ✅ Print raw data to debug
+
+        # ✅ Print raw data for debugging
+        print(f"📊 Raw Data from Yahoo Finance:\n{df.head()}")
+
         if df.empty:
             print("⚠️ Warning: No data retrieved for the given tickers.")
             raise ValueError("No data retrieved for the given tickers.")
         
         adj_close = df['Adj Close'].dropna(how='all', axis=1)
-        print(f"✅ Data retrieved: {adj_close.shape} rows & columns")
+
+        if adj_close.empty:
+            print("⚠️ No valid adjusted close data available.")
+            return None
+
+        # ✅ Filter out missing stocks
+        valid_tickers = list(adj_close.columns)
+        print(f"✅ Valid stocks found: {valid_tickers}")
 
         return adj_close
 
@@ -107,6 +116,9 @@ def run_monte_carlo():
     """Endpoint for running Monte Carlo simulation."""
     try:
         data = request.get_json()
+
+        print(f"📥 Incoming JSON request: {data}")  # ✅ Debugging
+
         tickers = data.get("tickers", [])
         num_portfolios = data.get("num_portfolios", 50000)
 
@@ -119,7 +131,9 @@ def run_monte_carlo():
             return jsonify(mc_result)
         else:
             return jsonify({"error": "Failed to run simulation"}), 500
+
     except Exception as e:
+        print(f"❌ API Error: {e}")
         return jsonify({"error": f"Internal server error: {str(e)}"}), 500
 
 @app.route('/')
