@@ -18,16 +18,22 @@ start_date = (datetime.today() - timedelta(days=4 * 365 + 25)).strftime('%Y-%m-%
 def fetch_stock_data(tickers):
     """Fetch historical stock data for selected tickers."""
     try:
-        print(f"Fetching stock data for: {tickers}")  # Debugging Step
+        print(f"Fetching stock data for: {tickers}")  # ✅ Debugging
+
         df = yf.download(tickers, start=start_date, end=end_date, progress=False)
-
+        
+        # ✅ Print raw data to debug
         if df.empty:
+            print("⚠️ Warning: No data retrieved for the given tickers.")
             raise ValueError("No data retrieved for the given tickers.")
+        
+        adj_close = df['Adj Close'].dropna(how='all', axis=1)
+        print(f"✅ Data retrieved: {adj_close.shape} rows & columns")
 
-        return df['Adj Close'].dropna(how='all', axis=1)
+        return adj_close
 
     except Exception as e:
-        print(f"Error fetching stock data: {e}")
+        print(f"❌ Error fetching stock data: {e}")
         return None
 
 def monte_carlo_simulation(tickers, num_portfolios=50000):
